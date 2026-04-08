@@ -1,22 +1,48 @@
-async function consultarGemini() {
-    const pergunta = document.getElementById('pergunta').value;
-    const divResultado = document.getElementById('resultado');
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Mestre da Pesca IA</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        .box { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; }
+        textarea { width: 100%; height: 80px; margin-bottom: 10px; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #resultado { margin-top: 20px; white-space: pre-wrap; color: #333; }
+    </style>
+</head>
+<body>
 
-    if (!pergunta) return;
+<div class="box">
+    <h2>🎣 Pergunte ao Mestre</h2>
+    <textarea id="pergunta" placeholder="Ex: Qual a melhor isca para robalo?"></textarea>
+    <button onclick="consultarGemini()">Enviar Pergunta</button>
+    <div id="resultado"></div>
+</div>
 
-    divResultado.style.display = "block";
-    divResultado.innerText = "Consultando o Mestre...";
+<script>
+    async function consultarGemini() {
+        const pergunta = document.getElementById('pergunta').value;
+        const divResultado = document.getElementById('resultado');
 
-    try {
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pergunta: pergunta })
-        });
+        if (!pergunta) return;
 
-        const data = await response.json();
-        divResultado.innerText = data.text;
-    } catch (error) {
-        divResultado.innerText = "Erro ao carregar resposta.";
+        divResultado.innerText = "Consultando o Mestre...";
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pergunta: pergunta })
+            });
+
+            const data = await response.json();
+            divResultado.innerText = data.text;
+        } catch (error) {
+            divResultado.innerText = "Erro ao carregar resposta.";
+        }
     }
-}
+</script>
+
+</body>
+</html>
